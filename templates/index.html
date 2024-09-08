@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather Information</h1>
+      <form action="/" method="POST">
+        <input
+          type="text"
+          name="city_name"
+          placeholder="Enter city name"
+          required
+        />
+        <button type="submit">Get Weather</button>
+      </form>
+
+      {% if weather_data %}
+      <h2>Location: {{ weather_data['location_name'] }}</h2>
+      <p>Temperature: {{ weather_data['temperature'] }}°C</p>
+      <p>Weather: {{ weather_data['weather_description'] }}</p>
+      <p>Humidity: {{ weather_data['humidity'] }}%</p>
+      <p>Wind Speed: {{ weather_data['wind_speed'] }} m/s</p>
+      <p>Time: {{ weather_data['time'] }}</p>
+      {% elif error %}
+      <p class="error">Error: {{ error }}</p>
+      {% endif %}
+    </div>
+    <div class="footer">
+      Nhóm 3: Print current weather information for a city
+    </div>
+  </body>
+</html>
