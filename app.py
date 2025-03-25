@@ -5,13 +5,14 @@ from datetime import datetime
 app = Flask(__name__)
 
 def get_weather_data(city_name):
-    api_key = "22b7f3537fa4da3978cdd4360f888378"
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
     
+    api_key = "208eb580ea30520ea4ac21973145a060"
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+
     complete_url = f"{base_url}q={city_name}&appid={api_key}&units=metric"
     response = requests.get(complete_url)
     data = response.json()
-    
+ 
     if response.status_code == 200:
         main = data["main"]
         sys = data["sys"]
@@ -33,15 +34,20 @@ def get_weather_data(city_name):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    
     weather_data = None
     error = None
     if request.method == "POST":
+
         city_name = request.form["city_name"]
         weather_data = get_weather_data(city_name)
+
         if weather_data is None:
             error = "City not found or API error"
-    
+
     return render_template("index.html", weather_data=weather_data, error=error)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
