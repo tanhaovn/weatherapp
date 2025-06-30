@@ -1,41 +1,197 @@
-<!DOCTYPE html>
-<html lang="vn">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather App</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Weather Information</h1>
-      <form action="/" method="POST">
-        <input
-          type="text"
-          name="city_name"
-          placeholder="Enter city name"
-          required
-        />
-        <button type="submit">Get Weather</button>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <style>
+    body {
+      background-image: url('https://hanoispiritofplace.com/wp-content/uploads/2018/01/hinh-nen-bau-troi-dem-2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #000000;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 30px 20px;
+      backdrop-filter: blur(5px);
+    }
+
+    .weather-container {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 30px 20px;
+    }
+
+    .left-info {
+      max-width: 300px;
+    }
+
+    .temp {
+      font-size: 60px;
+      font-weight: bold;
+    }
+
+    .forecast-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .info-item {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 10px 15px;
+      border-radius: 10px;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .info-grid {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .forecast-box {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      width: 1200px;
+      max-width: 150px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .temp {
+      font-size: 60px;
+      font-weight: bold;
+    }
+
+    .description {
+      font-size: 18px;
+    }
+
+    input.form-control {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(4px);
+      height: 38px;
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    input.form-control:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: none;
+    }
+
+
+    input.form-control::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    button.btn-light {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(4px);
+      height: 38px;
+      font-size: 14px;
+      padding: 6px 16px;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.btn-light:hover,
+    button.btn-light:focus,
+    button.btn-light:active {
+      background-color: rgba(255, 255, 255, 0.25);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: none;
+    }
+    input.form-control {
+  max-width: 850px;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card mt-5 mb-5">
+      <form class="d-flex align-items-center mb-4" method="POST" action="/">
+        <input class="form-control me-2" type="text" name="city_name" placeholder="Nhập tên thành phố" required style="max-width: 850px;">
+
+        <button class="btn btn-light" type="submit">Search</button>
       </form>
 
       {% if weather_data %}
-      <h2>Location: {{ weather_data['location_name'] }}</h2>
-      <p>Temperature: {{ weather_data['temperature'] }}°C</p>
-      <p>Weather: {{ weather_data['weather_description'] }}</p>
-      <p>Humidity: {{ weather_data['humidity'] }}%</p>
-      <p>Wind Speed: {{ weather_data['wind_speed'] }} m/s</p>
-      <p>Time: {{ weather_data['time'] }}</p>
+      <h2>Thời tiết {{ weather_data.location_name }}</h2>
+      <div class="weather-container">
+        <div class="top-row">
+          <div class="temp">{{ weather_data.temperature }}°C</div>
+          <div class="description">
+            <div>{{ weather_data.weather_description }}</div>
+            <div>Cảm giác như {{ weather_data.feels_like }}°</div>
+          </div>
+        </div>
+
+
+        <div class="info-grid">
+          <div class="info-item">Thấp/Cao<br>{{ weather_data.temp_min }}° / {{ weather_data.temp_max }}°</div>
+          <div class="info-item">Độ ẩm<br>{{ weather_data.humidity }}%</div>
+          <div class="info-item">Tầm nhìn<br>{{ weather_data.visibility }} km</div>
+          <div class="info-item">Gió<br>{{ weather_data.wind_speed }} km/h</div>
+          <div class="info-item">Điểm ngưng<br>{{ weather_data.dew_point }}°</div>
+          <div class="info-item">Ngày: {{ weather_data.date }}<br>Giờ: {{ weather_data.time }}</div>
+
+        </div>
+      </div>
+      {% if forecast_data %}
+      <h3 class="mt-4">Dự báo 7 ngày</h3>
+      <div class="forecast-row">
+        {% for day in forecast_data %}
+        <div class="forecast-box">
+          <h6>{{ day.date }}</h6>
+          <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="icon" width="50">
+          <p>{{ day.temp }}°C</p>
+          <small>{{ day.description }}</small>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       {% elif error %}
-      <p class="error">Error: {{ error }}</p>
+      <div class="alert alert-danger mt-3">{{ error }}</div>
       {% endif %}
     </div>
-    <div class="footer">
-      Nhóm 3: Print current weather information for a city
-    </div>
-  </body>
+  </div>
+</body>
+
+
 </html>
